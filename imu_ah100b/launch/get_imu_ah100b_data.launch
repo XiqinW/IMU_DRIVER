@@ -1,0 +1,6 @@
+<launch>
+    <arg name="serial_port_name" default = "/dev/ttyUSB0" />
+    <node name="imu_ah100b" pkg="imu_ah100b" type="imu_ah100b_pub" output="screen">
+        <param name="serial_port" type="string" value="$(arg serial_port_name)" />
+    </node>
+</launch>
