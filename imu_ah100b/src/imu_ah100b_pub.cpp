@@ -14,7 +14,9 @@ int main(int argc, char **argv)
 	ros::NodeHandle n("~");
 	//Serial Driver
 	std::string serial_port;
-	n.getParam("serial_port",serial_port); 
+	int framerate;
+	n.param("serial_port", serial_port, std::string("/dev/ttyUSB0"));
+	n.param("framerate", framerate, 100);
 	ROS_INFO("serial_port: %s", serial_port.c_str());
 	serial::Timeout to = serial::Timeout::simpleTimeout(10);
 	serial::Serial i_sp(serial_port, 115200, to/*, //Default Value
@@ -25,7 +27,7 @@ int main(int argc, char **argv)
 						);
 
 	ros::Publisher imu_msg_pub = n.advertise<sensor_msgs::Imu>("imu_raw", 20);
-	ros::Rate loop_rate(100);
+	ros::Rate loop_rate(framerate);
 	sDataLink imu_DataPack;
 	while (ros::ok())
 	{
